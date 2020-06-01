@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/img_band_id"
+            android:scaleType="fitXY"
+            android:layout_width="50dp"
+            android:layout_height="50dp" >
+
+        </ImageView>
+
+        <TextView
+            android:text="Sam Sung"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:id="@+id/name_brand_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

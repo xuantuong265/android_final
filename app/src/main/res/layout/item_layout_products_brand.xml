@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+<androidx.cardview.widget.CardView
+    android:layout_margin="4dp"
+    app:cardCornerRadius="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"
+            android:id="@+id/img_avt_products_id"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:id="@+id/name_products_id"
+            android:text="I phone 6s"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="2000000 đ"
+            android:layout_marginTop="5dp"
+            android:id="@+id/price_products_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+</LinearLayout>
