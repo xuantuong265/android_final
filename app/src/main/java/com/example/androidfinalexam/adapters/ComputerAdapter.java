@@ -11,19 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidfinalexam.R;
+import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.activities.DetailProActivity;
 import com.example.androidfinalexam.models.Products;
 import com.example.androidfinalexam.viewholders.ProductBrandHolder;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ProductBrandAdapter extends RecyclerView.Adapter<ProductBrandHolder> {
+public class ComputerAdapter extends RecyclerView.Adapter<ProductBrandHolder> {
 
     private Context context;
     private ArrayList<Products> mData;
 
-    public ProductBrandAdapter(Context context, ArrayList<Products> mData) {
+    public ComputerAdapter(Context context, ArrayList<Products> mData) {
         this.context = context;
         this.mData = mData;
     }
@@ -38,11 +40,13 @@ public class ProductBrandAdapter extends RecyclerView.Adapter<ProductBrandHolder
 
     @Override
     public void onBindViewHolder(@NonNull ProductBrandHolder holder, final int position) {
-        Picasso.get().load(mData.get(position).getImage()).into(holder.imgAvt);
+        Picasso.get().load(UrlApi.getImage + mData.get(position).getImage()).into(holder.imgAvt);
         holder.txtNamePro.setMaxLines(2); // set hiển thị chỉ 2 dòng
         holder.txtNamePro.setEllipsize(TextUtils.TruncateAt.END); // ... ở cuối dòng
         holder.txtNamePro.setText(mData.get(position).getName());
-        holder.txtPricePro.setText(mData.get(position).getPrice() + "đ");
+        String pattern = "###,###.###";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+        holder.txtPricePro.setText(decimalFormat.format(mData.get(position).getPrice()) + "đ");
 
         // setOnclick
         holder.imgAvt.setOnClickListener(new View.OnClickListener() {

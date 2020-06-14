@@ -7,15 +7,17 @@ import java.io.Serializable;
 public class Products implements Serializable {
 
     private String name, products_desc, image;
-    private int id_b, amounts, id;
+    private int id_b, amounts, id, id_categories;
     private double price, star;
 
     public Products() {
     }
 
-    public Products( int id, int id_brand, String name, String image, int amounts, double price, String products_desc, double star ) {
+
+    public Products(int id, int id_brand, int id_categories, String name, String image, int amounts, double price, String products_desc, double star ) {
         this.id = id;
         this.id_b = id_brand;
+        this.id_categories = id_categories;
         this.name = name;
         this.image = image;
         this.amounts = amounts;
@@ -88,5 +90,13 @@ public class Products implements Serializable {
 
     public void setStar(double star) {
         this.star = star;
+    }
+
+    public int getId_categories() {
+        return id_categories;
+    }
+
+    public void setId_categories(int id_categories) {
+        this.id_categories = id_categories;
     }
 }

@@ -27,6 +27,7 @@
            android:layout_height="wrap_content" />
 
        <ImageView
+           android:id="@+id/imgCart_id"
            android:layout_marginLeft="10dp"
            android:src="@drawable/ic_shopping_cart_black"
            android:layout_width="0dp"

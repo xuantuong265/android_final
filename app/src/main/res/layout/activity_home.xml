@@ -9,7 +9,6 @@
         android:layout_height="match_parent"
         tools:context=".activities.HomeActivity">
 
-        <include layout="@layout/toolbar_home" />
 
         <RelativeLayout
             android:layout_width="match_parent"

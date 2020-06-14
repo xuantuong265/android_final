@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".activities.RegisterActivity">
+    >
 
     <LinearLayout
         android:layout_margin="20dp"
@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ImageView
-            android:src="@drawable/anh1"
+        <TextView
+           android:text="đây là trang đăng ksy"
             android:layout_width="130dp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
-            android:id="@+id/edtPasswordRep"
+            android:id="@+id/edtPassword2"
             android:hint="Password"
             android:textColorHint="#2CA7E0"
             android:inputType="textPassword"
@@ -70,22 +70,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="45dp">
 
-            <Button
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/custom_btn_login_layout"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:layout_marginRight="10dp"
-                android:text="Back"
-                android:textColor="#fff" />
 
             <Button
                 android:layout_marginLeft="10dp"
@@ -93,13 +80,22 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnRegister"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_btn_login_layout"
                 android:text="Register"
                 android:textColor="#fff" />
+
+            <TextView
+                android:textColor="#2CA7E0"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="Already have an account?"
+                android:id="@+id/had_account_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.androidfinalexam.models;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +27,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.androidfinalexam.R;
-import com.example.androidfinalexam.adapters.ProductBrandAdapter;
+import com.example.androidfinalexam.UrlApi;
+import com.example.androidfinalexam.activities.CartActivity;
+import com.example.androidfinalexam.adapters.ComputerAdapter;
+import com.example.androidfinalexam.adapters.MobileProAdapter;
+
 import com.example.androidfinalexam.adapters.SlideBrandAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -34,19 +39,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HomeFragment extends Fragment {
 
     private View view;
     private EditText edtSearch;
     private ViewFlipper viewFlipper;
-    private RecyclerView recyclerView, recyFeaturedProducts;
+    private RecyclerView recyclerView, recyMobilePro, recynewProducts;
     private SlideBrandAdapter slideBrandAdapter;
-    private ProductBrandAdapter productBrandAdapter;
-    private ArrayList<Products> productsArrayList;
+    private MobileProAdapter mobileProAdapter;
+    public static ArrayList<Products> productsArrayList;
     private ArrayList<ItemBrand> mData;
-
+    private ArrayList<Products> computerList;
+    private ComputerAdapter computerAdapter;
+    private ImageView imgCart;
 
 
     public HomeFragment() {
@@ -60,15 +69,87 @@ public class HomeFragment extends Fragment {
         //searchChange();
         slide();
         setUpRecyclerviewSlideBrand();
-        featuredProduct();
+        mobileProduct();
+        computerProduct();
+        setOnClick();
         return view;
     }
 
+    private void computerProduct() {
 
-    private void featuredProduct() {
-        String url = "http://192.168.0.27/Laravel/clonetiki/api/featuredProduct";
-        recyFeaturedProducts.setHasFixedSize(true);
-        recyFeaturedProducts.setLayoutManager( new GridLayoutManager(getContext(), 2, LinearLayoutManager.HORIZONTAL, false) );
+        // url
+        String urlNewPro = UrlApi.computerProduct;
+
+        recynewProducts.setHasFixedSize(true);
+        recynewProducts.setLayoutManager( new GridLayoutManager(getContext(), 2, LinearLayoutManager.HORIZONTAL, false) );
+        computerList = new ArrayList<Products>();
+
+        // get data api
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, urlNewPro, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for ( int i = 0; i < response.length(); i++ ){
+                            try {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                int id = jsonObject.getInt("id");
+                                int id_brand = jsonObject.getInt("id_brand");
+                                int id_categories = jsonObject.getInt("id_categories");
+                                String name = jsonObject.getString("name");
+                                String image = jsonObject.getString("image");
+                                int amounts = jsonObject.getInt("amounts");
+                                double price = jsonObject.getDouble("price");
+                                String products_desc = jsonObject.getString("products_desc");
+                                double star = jsonObject.getDouble("star");
+
+                                computerList.add( new Products(id, id_brand, id_categories, name, image, amounts, price, products_desc, star) );
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        mobileProAdapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("loi", error.toString());
+
+            }
+        });
+        queue.add(jsonArrayRequest);
+
+        computerAdapter = new ComputerAdapter(getActivity(), computerList);
+        recynewProducts.setAdapter(computerAdapter);
+
+    }
+
+    private void setOnClick() {
+        imgCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( getActivity(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        edtSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.framContainer, new SearchFragment()).commit();
+            }
+        });
+
+    }
+
+
+    private void mobileProduct() {
+        //String url = "http://192.168.0.23/Laravel/clonetiki/api/featuredProduct";
+        String url = UrlApi.mobileProduct;
+        recyMobilePro.setHasFixedSize(true);
+        recyMobilePro.setLayoutManager( new GridLayoutManager(getContext(), 2, LinearLayoutManager.HORIZONTAL, false) );
         productsArrayList = new ArrayList<Products>();
 
         // get data api
@@ -83,6 +164,7 @@ public class HomeFragment extends Fragment {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 int id = jsonObject.getInt("id");
                                 int id_brand = jsonObject.getInt("id_brand");
+                                int id_categories = jsonObject.getInt("id_categories");
                                 String name = jsonObject.getString("name");
                                 String image = jsonObject.getString("image");
                                 int amounts = jsonObject.getInt("amounts");
@@ -90,13 +172,13 @@ public class HomeFragment extends Fragment {
                                 String products_desc = jsonObject.getString("products_desc");
                                 double star = jsonObject.getDouble("star");
 
-                                productsArrayList.add( new Products(id, id_brand, name, image, amounts, price, products_desc, star) );
+                                productsArrayList.add( new Products(id, id_brand, id_categories, name, image, amounts, price, products_desc, star) );
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        productBrandAdapter.notifyDataSetChanged();
+                        mobileProAdapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -107,14 +189,15 @@ public class HomeFragment extends Fragment {
         });
         queue.add(jsonArrayRequest);
 
-        productBrandAdapter = new ProductBrandAdapter(getActivity(), productsArrayList);
-        recyFeaturedProducts.setAdapter(productBrandAdapter);
+        Toast.makeText(getActivity(), "vô" + productsArrayList, Toast.LENGTH_SHORT).show();
+        mobileProAdapter = new MobileProAdapter(getActivity(), productsArrayList);
+        recyMobilePro.setAdapter(mobileProAdapter);
 
     }
 
 
     private void setUpRecyclerviewSlideBrand() {
-        String url = "http://192.168.0.27/Laravel/clonetiki/api/get-data-brand";
+        String url = UrlApi.slideBrand;
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager
@@ -161,10 +244,12 @@ public class HomeFragment extends Fragment {
 
 
     private void initView() {
+        imgCart = (ImageView) view.findViewById(R.id.imgCart_id);
         edtSearch = (EditText) view.findViewById(R.id.search_id);
         viewFlipper = (ViewFlipper) view.findViewById(R.id.slide_id);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_slide_brand_id);
-        recyFeaturedProducts = (RecyclerView) view.findViewById(R.id.recyclerview_slide_featured_products);
+        recyMobilePro = (RecyclerView) view.findViewById(R.id.recyclerview_slide_featured_products);
+        recynewProducts = (RecyclerView) view.findViewById(R.id.recyclerview_newPro);
     }
 
     private void slide() {

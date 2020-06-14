@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Android Final Exam</string>
+    <string name="title_activity_contacts">Map</string>
 </resources>

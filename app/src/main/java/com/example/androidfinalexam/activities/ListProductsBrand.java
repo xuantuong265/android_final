@@ -23,7 +23,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.androidfinalexam.R;
-import com.example.androidfinalexam.adapters.ProductBrandAdapter;
+import com.example.androidfinalexam.UrlApi;
+import com.example.androidfinalexam.adapters.MobileProAdapter;
 import com.example.androidfinalexam.models.Products;
 import com.google.gson.JsonArray;
 
@@ -39,7 +40,7 @@ public class ListProductsBrand extends AppCompatActivity {
 
     private ImageView imgBack;
     private RecyclerView recyclerView;
-    private ProductBrandAdapter productBrandAdapter;
+    private MobileProAdapter mobileProAdapter;
     public ArrayList<Products> mData = new ArrayList<>();
     private int brand_id;
     private View footerView;
@@ -72,12 +73,12 @@ public class ListProductsBrand extends AppCompatActivity {
     private void setUpRecyclerview() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        productBrandAdapter = new ProductBrandAdapter(ListProductsBrand.this, mData);
-        recyclerView.setAdapter(productBrandAdapter);
+        mobileProAdapter = new MobileProAdapter(ListProductsBrand.this, mData);
+        recyclerView.setAdapter(mobileProAdapter);
     }
 
     private void getData() {
-        String url = "http://192.168.0.27/Laravel/clonetiki/api/getProBrand";
+        String url = UrlApi.listProductsBrand;
         Intent intent = getIntent();
         brand_id = intent.getIntExtra("id", -1);
 
@@ -95,6 +96,7 @@ public class ListProductsBrand extends AppCompatActivity {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("id");
                             int id_brand = jsonObject.getInt("id_brand");
+                            int id_categories = jsonObject.getInt("id_categories");
                             String name = jsonObject.getString("name");
                             String image = jsonObject.getString("image");
                             int amounts = jsonObject.getInt("amounts");
@@ -102,11 +104,11 @@ public class ListProductsBrand extends AppCompatActivity {
                             String products_desc = jsonObject.getString("products_desc");
                             double star = jsonObject.getDouble("star");
 
-                            mData.add( new Products(id, id_brand, name, image, amounts, price, products_desc, star) );
+                            mData.add( new Products(id, id_brand, id_categories, name, image, amounts, price, products_desc, star) );
 
                         }
 
-                        productBrandAdapter.notifyDataSetChanged();
+                        mobileProAdapter.notifyDataSetChanged();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -146,9 +148,6 @@ public class ListProductsBrand extends AppCompatActivity {
         // ánh xạ
         imgBack = (ImageView) findViewById(R.id.img_back_id);
         recyclerView = (RecyclerView) findViewById(R.id.recy_pro_brand_id);
-        footerView = (View) findViewById(R.id.proressbar_id);
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        footerView = layoutInflater.inflate(R.layout.progressbar, null);
 
     }
 

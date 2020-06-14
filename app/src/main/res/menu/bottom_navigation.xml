@@ -7,10 +7,10 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Trang chủ"/>
     <item
-        android:id="@+id/category_id"
+        android:id="@+id/search_id"
         android:enabled="true"
-        android:icon="@drawable/ic_apps_black_24dp"
-        android:title="Danh mục"/>
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Tìm kiếm"/>
     <item
         android:id="@+id/notifications_id"
         android:enabled="true"
