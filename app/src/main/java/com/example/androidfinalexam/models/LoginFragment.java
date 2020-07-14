@@ -1,7 +1,9 @@
 package com.example.androidfinalexam.models;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +27,19 @@ import com.android.volley.toolbox.Volley;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.activities.HomeActivity;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +50,9 @@ public class LoginFragment extends Fragment {
     private Button btnLogin;
     private TextView txtBack;
     private String url = UrlApi.login;
+    private ProgressDialog progressDialog;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 
     @Nullable
     @Override
@@ -78,6 +92,8 @@ public class LoginFragment extends Fragment {
         edtPassword = (EditText) view.findViewById(R.id.edtPassword);
         btnLogin = (Button) view.findViewById(R.id.btnLogin);
         txtBack = (TextView) view.findViewById(R.id.back_id);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Đang xác thực");
     }
 
     private void login() {
@@ -102,11 +118,14 @@ public class LoginFragment extends Fragment {
                         intent.putExtra("email", email);
                         intent.putExtra("password", password);
                         intent.putExtra("date", date);
+                        progressDialog.show();
 
                         startActivity(intent);
 
                     }else {
-                        Toast.makeText(getActivity(), "Thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Tài khoản hoặc mật khẩu sai !", Toast.LENGTH_SHORT).show();
+                        edtEmail.setText("");
+                        edtPassword.setText("");
                     }
 
                 } catch (JSONException e) {
@@ -148,6 +167,57 @@ public class LoginFragment extends Fragment {
         queue.add(stringRequest);
     }
 
+
+
+    private void loginFacebook(){
+
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions(Arrays.asList(
+                "email"));
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                getInfo();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+
+
+
+    }
+
+    private void getInfo() {
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                Log.d("JSON", response.getJSONObject().toString());
+                try {
+                    Toast.makeText(getActivity(), "name" + object.getString("name"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "name, email");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 
 }

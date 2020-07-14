@@ -1,8 +1,8 @@
 package com.example.androidfinalexam.models;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,26 +11,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.activities.AuthActivitis;
 import com.example.androidfinalexam.activities.Contacts;
 import com.example.androidfinalexam.activities.DonHangChoXuLy;
+import com.example.androidfinalexam.activities.DonHangThanhCong;
 import com.example.androidfinalexam.activities.HomeActivity;
+import com.example.androidfinalexam.activities.ProductLoveActivity;
+import com.example.androidfinalexam.activities.YourCommentActivity;
 
 public class PersonFragment extends Fragment {
 
     private View view;
     private LinearLayout layout_info;
-    private ImageView imgAvt;
-    private TextView txtInfo, txtDonHangChoXuLy;
-    private TextView txtDate, txtDangNhap, txtContact;
+    private ImageView imgAvt, imgBack;
+    private TextView txtInfo;
+    private CardView txtDonHangChoXuLy, txtDonHangThanhCong, txtComment, txtProductLove, txtContact, txtDaXem;
+    private TextView txtDate, txtDangNhap;
     private Button btnLogout;
+    private ProgressDialog progressDialog;
 
     public PersonFragment() {
     }
@@ -52,14 +57,14 @@ public class PersonFragment extends Fragment {
     private void ckeckInfo() {
 
         //check info from
-        String taikhoan = HomeActivity.sharedPreferences.getString("taikhoan", "");
-        String date = HomeActivity.sharedPreferences.getString("ngaydangky", "");
+        String taikhoan = HomeActivity.sharedLogin.getString("taikhoan", "");
+        String date = HomeActivity.sharedLogin.getString("ngaydangky", "");
 
         if ( ( taikhoan != "" ) && ( date != "" ) ){
             // nếu có info
             txtInfo.setText( taikhoan.toString() );
             txtDate.setVisibility(View.VISIBLE);
-            txtDate.setText( "Ngày đăng ký: " + date );
+            txtDate.setText( "Thành viên từ ngày: " + date );
             txtDangNhap.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
 
@@ -85,9 +90,10 @@ public class PersonFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeActivity.editor = HomeActivity.sharedPreferences.edit();
+                HomeActivity.editor = HomeActivity.sharedLogin.edit();
                 HomeActivity.editor.clear();
                 HomeActivity.editor.apply();
+                progressDialog.show();
 
                 Intent intent = new Intent( getActivity(), HomeActivity.class );
                 startActivity(intent);
@@ -107,8 +113,8 @@ public class PersonFragment extends Fragment {
             public void onClick(View v) {
 
                 //check info from
-                String taikhoan = HomeActivity.sharedPreferences.getString("taikhoan", "");
-                String date = HomeActivity.sharedPreferences.getString("ngaydangky", "");
+                String taikhoan = HomeActivity.sharedLogin.getString("taikhoan", "");
+                String date = HomeActivity.sharedLogin.getString("ngaydangky", "");
 
                 if ( ( taikhoan != "" ) && ( date != "" ) ){
                     // nếu có info
@@ -120,15 +126,69 @@ public class PersonFragment extends Fragment {
             }
         });
 
+        txtProductLove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity( new Intent( getActivity(), ProductLoveActivity.class ) );
+            }
+        });
+
+        txtDonHangThanhCong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //check info from
+                String taikhoan = HomeActivity.sharedLogin.getString("taikhoan", "");
+                String date = HomeActivity.sharedLogin.getString("ngaydangky", "");
+
+                if ( ( taikhoan != "" ) && ( date != "" ) ){
+                    // nếu có info
+                    startActivity( new Intent( getActivity(), DonHangThanhCong.class) );
+                }else {
+                    startActivity( new Intent( getActivity(), AuthActivitis.class ) );
+                }
+
+            }
+        });
+
+        txtComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), YourCommentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity( new Intent( getActivity(), HomeActivity.class ) );
+            }
+        });
+
+        txtDaXem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     private void initView() {
+        imgBack = (ImageView) view.findViewById(R.id.img_back_id);
         layout_info = (LinearLayout) view.findViewById(R.id.layout_info);
         txtDate = (TextView) view.findViewById(R.id.date_id);
         txtInfo = (TextView) view.findViewById(R.id.email_id);
         txtDangNhap = (TextView) view.findViewById(R.id.dangnhap_id);
         btnLogout = (Button) view.findViewById(R.id.btnLogout);
-        txtContact = (TextView) view.findViewById(R.id.contact_id);
-        txtDonHangChoXuLy = (TextView) view.findViewById(R.id.donhang_choxuly_id);
+        txtContact = (CardView) view.findViewById(R.id.contact_id);
+        txtDonHangChoXuLy = (CardView) view.findViewById(R.id.donhang_choxuly_id);
+        txtProductLove = (CardView) view.findViewById(R.id.product_love_id);
+        txtDaXem = (CardView) view.findViewById(R.id.san_pham_da_xem_id);
+        txtDonHangThanhCong = (CardView) view.findViewById(R.id.orders_success_id);
+        txtComment = (CardView) view.findViewById(R.id.comment_id);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Đang xác thực");
     }
 }

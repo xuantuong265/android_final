@@ -10,7 +10,7 @@ public class Products implements Serializable {
     private int id_b, amounts, id, id_categories;
     private double price, star;
 
-    public Products() {
+    public Products(JSONObject jsonObject) {
     }
 
 

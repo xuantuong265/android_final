@@ -8,7 +8,7 @@
             android:id="@+id/toolbar_id"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorYellow"
+            android:background="@drawable/custom_toolbar_layout"
             android:padding="10dp">
 
                 <RelativeLayout
@@ -41,8 +41,8 @@
                             android:src="@drawable/ic_shopping_cart_black"
                             android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp" />
+                            android:layout_width="27dp"
+                            android:layout_height="27dp" />
 
                 </RelativeLayout>
 
@@ -51,7 +51,6 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:padding="10dp"
             android:id="@+id/recy_pro_brand_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

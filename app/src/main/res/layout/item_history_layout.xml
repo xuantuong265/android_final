@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#fff"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+   <androidx.cardview.widget.CardView
+       android:clickable="false"
+       android:foreground="?android:attr/selectableItemBackground"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" >
+
+       <RelativeLayout
+           android:padding="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:fontFamily="sans-serif"
+               android:id="@+id/name_search_id"
+               android:layout_alignParentLeft="true"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+           <ImageView
+               android:layout_alignParentRight="true"
+               android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+       </RelativeLayout>
+
+   </androidx.cardview.widget.CardView>
+
+</LinearLayout>

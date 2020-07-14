@@ -3,6 +3,7 @@ package com.example.androidfinalexam.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.models.Products;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -124,8 +126,17 @@ public class PayActivity extends AppCompatActivity {
 
                                     if ( deatail.getBoolean("status") ){
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+
+                                        // remove cart
                                         HomeActivity.cartArrayList.clear();
+                                        Gson gson = new Gson();
+                                        String json = gson.toJson(HomeActivity.cartArrayList);
+                                        HomeActivity.editor.putString("CartList", json);
+                                        HomeActivity.editor.apply();
+
+
                                         startActivity(intent);
+                                        JSONObject datas = deatail.getJSONObject("data");
                                         Toast.makeText(PayActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                                         Toast.makeText(PayActivity.this, "Mời bạn tiếp tục mua hàng", Toast.LENGTH_SHORT).show();
                                     }else {
@@ -155,6 +166,7 @@ public class PayActivity extends AppCompatActivity {
                                         datas.put("id_orders", id_orders);
                                         datas.put("id_products", HomeActivity.cartArrayList.get(i).getId());
                                         datas.put("name_products", HomeActivity.cartArrayList.get(i).getNamePro());
+                                        datas.put("image", HomeActivity.cartArrayList.get(i).getImgPro());
                                         datas.put("price", HomeActivity.cartArrayList.get(i).getPrice());
                                         datas.put("amounts", HomeActivity.cartArrayList.get(i).getAmount());
                                     } catch (JSONException e) {
@@ -166,7 +178,6 @@ public class PayActivity extends AppCompatActivity {
                                 // đấy lên
                                 Map<String, String> carts = new HashMap<String, String>();
                                 carts.put("mang", jsonArray.toString());
-
                                 return carts;
                             }
                         };
@@ -188,7 +199,7 @@ public class PayActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parrams = new HashMap<>();
-                String id_user = HomeActivity.sharedPreferences.getString("id", "0");
+                String id_user = HomeActivity.sharedLogin.getString("id", "0");
                 // ngày tháng năm
                 Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");

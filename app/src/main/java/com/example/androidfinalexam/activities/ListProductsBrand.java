@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.adapters.MobileProAdapter;
+import com.example.androidfinalexam.adapters.ProductAdapter;
 import com.example.androidfinalexam.models.Products;
 import com.google.gson.JsonArray;
 
@@ -38,9 +40,9 @@ import java.util.Map;
 
 public class ListProductsBrand extends AppCompatActivity {
 
-    private ImageView imgBack;
+    private ImageView imgBack, imgCart;
     private RecyclerView recyclerView;
-    private MobileProAdapter mobileProAdapter;
+    private ProductAdapter mobileProAdapter;
     public ArrayList<Products> mData = new ArrayList<>();
     private int brand_id;
     private View footerView;
@@ -72,8 +74,8 @@ public class ListProductsBrand extends AppCompatActivity {
 
     private void setUpRecyclerview() {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        mobileProAdapter = new MobileProAdapter(ListProductsBrand.this, mData);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL));
+        mobileProAdapter = new ProductAdapter(ListProductsBrand.this, mData);
         recyclerView.setAdapter(mobileProAdapter);
     }
 
@@ -141,6 +143,12 @@ public class ListProductsBrand extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        imgCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity( new Intent( ListProductsBrand.this, CartActivity.class ) );
+            }
+        });
     }
 
     private void initView() {
@@ -148,6 +156,7 @@ public class ListProductsBrand extends AppCompatActivity {
         // ánh xạ
         imgBack = (ImageView) findViewById(R.id.img_back_id);
         recyclerView = (RecyclerView) findViewById(R.id.recy_pro_brand_id);
+        imgCart = (ImageView) findViewById(R.id.imgCart_id);
 
     }
 

@@ -5,20 +5,18 @@ import org.json.JSONObject;
 public class DetailOrders {
 
     private int id, id_oders, id_products;
-    private String name_products;
+    private String name_products, image;
     private double price;
     private int amounts;
 
-    public DetailOrders(int id, int id_oders, int id_products, String name_products, double price, int amounts) {
+    public DetailOrders(int id, int id_oders, int id_products, String name_products, String image, double price, int amounts) {
         this.id = id;
         this.id_oders = id_oders;
         this.id_products = id_products;
         this.name_products = name_products;
+        this.image = image;
         this.price = price;
         this.amounts = amounts;
-    }
-
-    public DetailOrders(JSONObject object) {
     }
 
     public int getId() {
@@ -51,6 +49,14 @@ public class DetailOrders {
 
     public void setName_products(String name_products) {
         this.name_products = name_products;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public double getPrice() {

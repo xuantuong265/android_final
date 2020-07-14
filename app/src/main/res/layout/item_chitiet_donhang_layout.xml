@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:layout_margin="5dp"
+    android:layout_margin="1dp"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -16,18 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-           <androidx.cardview.widget.CardView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content">
-
                <ImageView
                    android:padding="10dp"
                    android:id="@+id/img_pro_id"
                    android:src="@mipmap/ic_launcher"
-                   android:layout_width="120dp"
-                   android:layout_height="120dp" />
-
-           </androidx.cardview.widget.CardView>
+                   android:layout_width="80dp"
+                   android:layout_height="80dp" />
 
             <LinearLayout
                 android:padding="10dp"
@@ -37,11 +30,13 @@
 
                 <TextView
                     android:id="@+id/name_id"
+                    android:textStyle="bold"
                     android:text="tên sản phẩm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:textSize="13dp"
                     android:text="Cung cấp bởi Tiki Trading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

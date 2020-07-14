@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -20,16 +21,22 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.activities.CartActivity;
+import com.example.androidfinalexam.activities.DetailProActivity;
+import com.example.androidfinalexam.activities.HomeActivity;
+import com.example.androidfinalexam.activities.XemThemDienThoai;
 import com.example.androidfinalexam.adapters.ComputerAdapter;
+import com.example.androidfinalexam.adapters.DaXemAdapter;
 import com.example.androidfinalexam.adapters.MobileProAdapter;
 
 import com.example.androidfinalexam.adapters.SlideBrandAdapter;
@@ -42,20 +49,25 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
     private View view;
     private EditText edtSearch;
     private ViewFlipper viewFlipper;
-    private RecyclerView recyclerView, recyMobilePro, recynewProducts;
+    private RecyclerView recyclerView, recyMobilePro, recynewProducts, goi_y_hom_nay_id, sanPhamDaXem;
     private SlideBrandAdapter slideBrandAdapter;
     private MobileProAdapter mobileProAdapter;
+    private DaXemAdapter daXemAdapter;
     public static ArrayList<Products> productsArrayList;
+    private ArrayList<Products> listSanPhamDaXem = new ArrayList<>();
     private ArrayList<ItemBrand> mData;
     private ArrayList<Products> computerList;
     private ComputerAdapter computerAdapter;
     private ImageView imgCart;
+    private TextView txtDienThoai, txtMayTinh;
 
 
     public HomeFragment() {
@@ -72,6 +84,7 @@ public class HomeFragment extends Fragment {
         mobileProduct();
         computerProduct();
         setOnClick();
+        xemSanPham();
         return view;
     }
 
@@ -81,7 +94,7 @@ public class HomeFragment extends Fragment {
         String urlNewPro = UrlApi.computerProduct;
 
         recynewProducts.setHasFixedSize(true);
-        recynewProducts.setLayoutManager( new GridLayoutManager(getContext(), 2, LinearLayoutManager.HORIZONTAL, false) );
+        recynewProducts.setLayoutManager( new GridLayoutManager(getContext(), 1, LinearLayoutManager.HORIZONTAL, false) );
         computerList = new ArrayList<Products>();
 
         // get data api
@@ -127,6 +140,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setOnClick() {
+
         imgCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,14 +156,38 @@ public class HomeFragment extends Fragment {
             }
         });
 
-    }
+        txtDienThoai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                // get id_cate
+                int id_cate = productsArrayList.get(0).getId_categories();
+
+                Intent intent = new Intent( getActivity(), XemThemDienThoai.class );
+                intent.putExtra("id_categories", id_cate);
+                startActivity(intent);
+            }
+        });
+
+        txtMayTinh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get id_cate
+                int id_cate = computerList.get(0).getId_categories();
+
+                Intent intent = new Intent( getActivity(), XemThemDienThoai.class );
+                intent.putExtra("id_categories", id_cate);
+                startActivity(intent);
+            }
+        });
+
+    }
 
     private void mobileProduct() {
         //String url = "http://192.168.0.23/Laravel/clonetiki/api/featuredProduct";
         String url = UrlApi.mobileProduct;
         recyMobilePro.setHasFixedSize(true);
-        recyMobilePro.setLayoutManager( new GridLayoutManager(getContext(), 2, LinearLayoutManager.HORIZONTAL, false) );
+        recyMobilePro.setLayoutManager( new GridLayoutManager(getContext(), 1, LinearLayoutManager.HORIZONTAL, false) );
         productsArrayList = new ArrayList<Products>();
 
         // get data api
@@ -189,12 +227,10 @@ public class HomeFragment extends Fragment {
         });
         queue.add(jsonArrayRequest);
 
-        Toast.makeText(getActivity(), "vô" + productsArrayList, Toast.LENGTH_SHORT).show();
         mobileProAdapter = new MobileProAdapter(getActivity(), productsArrayList);
         recyMobilePro.setAdapter(mobileProAdapter);
 
     }
-
 
     private void setUpRecyclerviewSlideBrand() {
         String url = UrlApi.slideBrand;
@@ -240,9 +276,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(slideBrandAdapter);
     }
 
-
-
-
     private void initView() {
         imgCart = (ImageView) view.findViewById(R.id.imgCart_id);
         edtSearch = (EditText) view.findViewById(R.id.search_id);
@@ -250,6 +283,10 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_slide_brand_id);
         recyMobilePro = (RecyclerView) view.findViewById(R.id.recyclerview_slide_featured_products);
         recynewProducts = (RecyclerView) view.findViewById(R.id.recyclerview_newPro);
+        txtDienThoai = (TextView) view.findViewById(R.id.dienThoai_id);
+        txtMayTinh = (TextView) view.findViewById(R.id.matTinh_id);
+        goi_y_hom_nay_id = (RecyclerView) view.findViewById(R.id.goi_y_hom_nay_id);
+        sanPhamDaXem = (RecyclerView) view.findViewById(R.id.san_pham_da_xem_id);
     }
 
     private void slide() {
@@ -273,7 +310,72 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void xemSanPham(){
 
+
+        // check có đăng nhập hay chưa
+        // đăng nhập mới tính xem
+        String taikhoan = HomeActivity.sharedLogin.getString("taikhoan", "");
+        String id = HomeActivity.sharedLogin.getString("id", "");
+
+        if ( ( taikhoan != "" ) ){
+
+            // set up recyclerview
+            sanPhamDaXem.setHasFixedSize(true);
+            sanPhamDaXem.setLayoutManager( new GridLayoutManager(getContext(), 1, LinearLayoutManager.HORIZONTAL, false) );
+            daXemAdapter = new DaXemAdapter(getActivity(), listSanPhamDaXem);
+            sanPhamDaXem.setAdapter(daXemAdapter);
+
+            String xemSanPhamDaXem = UrlApi.xemSanPhamDaXem; // url
+
+
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, xemSanPhamDaXem, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+
+                        for ( int i = 0; i < jsonArray.length(); i++ ){
+                            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                            listSanPhamDaXem.add( new Products(
+                                    jsonObject.getInt("id"),
+                                    jsonObject.getInt("id_brand"),
+                                    jsonObject.getInt("id_categories"),
+                                    jsonObject.getString("name"),
+                                    jsonObject.getString("image"),
+                                    jsonObject.getInt("amounts"),
+                                    jsonObject.getDouble("price"),
+                                    jsonObject.getString("products_desc"),
+                                    jsonObject.getDouble("star")
+                            ) );
+                        }
+
+                        daXemAdapter    .notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity(), "Lỗi " + error, Toast.LENGTH_SHORT).show();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> parrams = new HashMap<>();
+                    parrams.put("id_users", id);
+                    return parrams;
+                }
+            };
+            queue.add(stringRequest);
+
+        }
+    }
 
 
 }

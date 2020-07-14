@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidfinalexam.R;
+import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.activities.ListProductsBrand;
 import com.example.androidfinalexam.models.ItemBrand;
 import com.example.androidfinalexam.viewholders.SlideBrandHolder;
@@ -38,11 +39,11 @@ public class SlideBrandAdapter extends RecyclerView.Adapter<SlideBrandHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SlideBrandHolder holder, final int position) {
-        Picasso.get().load(mData.get(position).getImage()).into(holder.imageView);
+        Picasso.get().load(UrlApi.getImage + mData.get(position).getImage()).into(holder.imageView);
         holder.txtNameBrand.setText(mData.get(position).getName());
 
         // set onclick
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent( context, ListProductsBrand.class);

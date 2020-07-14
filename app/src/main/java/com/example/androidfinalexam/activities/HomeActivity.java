@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.example.androidfinalexam.models.Cart;
 import com.example.androidfinalexam.models.HomeFragment;
 import com.example.androidfinalexam.models.NotificationFragment;
 import com.example.androidfinalexam.models.PersonFragment;
+import com.example.androidfinalexam.models.Products;
 import com.example.androidfinalexam.models.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -33,8 +36,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     public static SharedPreferences sharedPreferences;
-    public static  SharedPreferences.Editor editor;
+    public static SharedPreferences sharedLogin;
+    public static SharedPreferences.Editor editor;
     public static ArrayList<Cart> cartArrayList;
+    public static ArrayList<Products> listProLove = new ArrayList<Products>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         getUser();
         putCart();
         loadData();
+        //getProductLove();
 
 
         if ( savedInstanceState == null ){
@@ -84,6 +90,25 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn có chắc muốn thoát ứng dụng không?");
+        builder.setPositiveButton("có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                HomeActivity.super.onBackPressed();
+            }
+        });
+        builder.setNegativeButton("không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+    }
+
     private void getUser() {
 
             Intent intent = getIntent();
@@ -92,15 +117,16 @@ public class HomeActivity extends AppCompatActivity {
             String password = intent.getStringExtra("password");
             String date = intent.getStringExtra("date");
 
-                sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+
+        sharedLogin = getSharedPreferences("login", MODE_PRIVATE);
 
                 // put data into sharedPreferences
-                editor = sharedPreferences.edit();
+                editor = sharedLogin.edit();
 
                 if ( email == null && date == null ){
                     //check info from
-                     email = HomeActivity.sharedPreferences.getString("taikhoan", "");
-                     date = HomeActivity.sharedPreferences.getString("ngaydangky", "");
+                     email = HomeActivity.sharedLogin.getString("taikhoan", "");
+                     date = HomeActivity.sharedLogin.getString("ngaydangky", "");
                 }else {
                     editor.putString("id", id);
                     editor.putString("taikhoan", email);
@@ -112,6 +138,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        HomeActivity.cartArrayList = new ArrayList<>();
+        sharedPreferences = getSharedPreferences("arrCart", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         if ( cartArrayList != null ){
@@ -145,25 +174,62 @@ public class HomeActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("CartList", null);
 
-        try {
-            JSONArray jsonArray = new JSONArray(json);
-            cartArrayList.clear();
+       if ( json != null ){
+           try {
+               JSONArray jsonArray = new JSONArray(json);
+               cartArrayList.clear();
 
-            for ( int i = 0; i < jsonArray.length(); i++ ){
-                JSONObject object = (JSONObject) jsonArray.get(i);
-                cartArrayList.add( new Cart(
-                        object.getInt("id"),
-                        object.getString("namePro"),
-                        object.getString("imgPro"),
-                        object.getDouble("price"),
-                        object.getInt("amount")
-                ) );
+               for ( int i = 0; i < jsonArray.length(); i++ ){
+                   JSONObject object = (JSONObject) jsonArray.get(i);
+                   cartArrayList.add( new Cart(
+                           object.getInt("id"),
+                           object.getString("namePro"),
+                           object.getString("imgPro"),
+                           object.getDouble("price"),
+                           object.getInt("amount")
+                   ) );
+               }
+
+           } catch (JSONException e) {
+               e.printStackTrace();
+           }
+       }
+
+
+    }
+
+    private void getProductLove(){
+
+        HomeActivity.sharedPreferences = getSharedPreferences("ProductLoveList", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = HomeActivity.sharedPreferences.getString("ProductLove", null);
+
+        if ( json != null ){
+            try {
+                JSONArray jsonArray = new JSONArray(json);
+                for ( int i = 0; i < jsonArray.length(); i++ ){
+                    JSONObject object = (JSONObject) jsonArray.get(i);
+                    int id = object.getInt("id");
+                    int id_brand = object.getInt("id_b");
+                    int id_categories =  object.getInt("id_categories");
+                    String name = object.getString("name");
+                    String image = object.getString("image");
+                    int amounts = object.getInt("amounts");
+                    double price = object.getDouble("price");
+                    String products_desc = object.getString("products_desc");
+                    double star =  object.getDouble("star");
+
+                    listProLove.add( new Products( id, id_brand, id_categories, name, image, amounts, price, products_desc, star ) );
+
+                }
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
 
     }
 

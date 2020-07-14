@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="#fff"
+    android:layout_marginTop="2dp"
+    android:layout_height="wrap_content">
+
+   <LinearLayout
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <TextView
+           android:layout_gravity="left"
+           android:id="@+id/name_id"
+           android:textSize="16dp"
+           android:textStyle="bold"
+           android:text="Bùi Xuân Tường"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+       <TextView
+           android:text="21/06/2020"
+           android:gravity="right"
+           android:id="@+id/date_id"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+
+   </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/rating_bar_id"
+        android:layout_marginTop="5dp"
+        android:progressTint="#FFEB3B"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="1" />
+
+    <TextView
+        android:text="Nội dung bình luận"
+        android:id="@+id/content_id"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/img_id"
+        android:layout_width="130dp"
+        android:layout_height="130dp" />
+
+
+</LinearLayout>

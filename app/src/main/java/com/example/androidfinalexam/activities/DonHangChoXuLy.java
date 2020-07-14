@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +40,7 @@ public class DonHangChoXuLy extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Orders> mData = new ArrayList<Orders>();
     private OrderAdapter orderAdapter;
+    private LinearLayout thongBao, haveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,16 @@ public class DonHangChoXuLy extends AppCompatActivity {
         setOnClick();
         getOrder();
 
+    }
+
+    private void checkData() {
+        if ( mData.size() > 0 ){
+            haveData.setVisibility(View.VISIBLE);
+            thongBao.setVisibility(View.GONE);
+        }else {
+            haveData.setVisibility(View.GONE);
+            thongBao.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getOrder() {
@@ -77,8 +89,8 @@ public class DonHangChoXuLy extends AppCompatActivity {
                                 object.getString("date")
                         ) );
 
+                        checkData();
                     }
-
 
                     orderAdapter.notifyDataSetChanged();
 
@@ -96,7 +108,7 @@ public class DonHangChoXuLy extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parrams = new HashMap<>();
-                String id_user = HomeActivity.sharedPreferences.getString("id", "");
+                String id_user = HomeActivity.sharedLogin.getString("id", "");
                 parrams.put("id_user", id_user);
                 return parrams;
             }
@@ -119,12 +131,14 @@ public class DonHangChoXuLy extends AppCompatActivity {
     private void initView() {
         imgBack = (ImageView) findViewById(R.id.img_back_id);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        thongBao = (LinearLayout) findViewById(R.id.thongbao_id);
+        haveData = (LinearLayout) findViewById(R.id.haveData_id);
     }
 
     private void setUpRecyclerview(){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
-        orderAdapter = new OrderAdapter( getApplicationContext(), mData );
+        orderAdapter = new OrderAdapter( DonHangChoXuLy.this, mData );
         recyclerView.setAdapter(orderAdapter);
     }
 

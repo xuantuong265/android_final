@@ -27,6 +27,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
 
     private Context context;
     private ArrayList<Cart> mData;
+    private Gson gson = new Gson();
 
     public CartAdapter(Context context, ArrayList<Cart> mData) {
         this.context = context;
@@ -48,7 +49,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
         holder.txtNamePro.setEllipsize(TextUtils.TruncateAt.END); // ... ở cuối dòng
         holder.txtNamePro.setText(mData.get(position).getNamePro());
 
-        final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String pattern = "###,###.###";
+        final DecimalFormat decimalFormat = new DecimalFormat(pattern);
         holder.txtPricePro.setText("Giá: " + decimalFormat.format(mData.get(position).getPrice()) + "đ");
         holder.txtAmount.setText(String.valueOf(mData.get(position).getAmount()));
 
@@ -106,6 +108,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
                     // cập nhật lại tổng tiền
                     CartActivity.setMoney();
 
+                    String json = gson.toJson(HomeActivity.cartArrayList);
+                    HomeActivity.editor.putString("CartList", json);
+                    HomeActivity.editor.apply();
+
+
                 } else {
                     holder.txtAmount.setText(String.valueOf(soLuongHienTai));
                 }
@@ -127,6 +134,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
                 notifyDataSetChanged();
                 CartActivity.setMoney();
                 CartActivity.checkData();
+
+                // lưu vào
+                Gson gson = new Gson();
+                String json = gson.toJson(HomeActivity.cartArrayList);
+                HomeActivity.editor.putString("CartList", json);
+                HomeActivity.editor.apply();
             }
         });
 

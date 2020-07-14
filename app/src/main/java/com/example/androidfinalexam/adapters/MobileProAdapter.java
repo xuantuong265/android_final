@@ -49,7 +49,7 @@ public class MobileProAdapter extends RecyclerView.Adapter<ProductBrandHolder> {
         holder.txtPricePro.setText(decimalFormat.format(mData.get(position).getPrice()) + "đ");
 
         // setOnclick
-        holder.imgAvt.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent( context, DetailProActivity.class);

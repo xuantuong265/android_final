@@ -3,7 +3,7 @@
     android:id="@+id/toolbar_home_id"
     android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
-    android:background="@color/colorYellow"
+    android:background="@drawable/custom_toolbar_layout"
     android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -17,6 +17,7 @@
            android:id="@+id/search_id"
            android:hint="search"
            android:ems="20"
+           android:focusable="false"
            android:textSize="20dp"
            android:drawablePadding="5dp"
            android:drawableLeft="@drawable/ic_search_black_24dp"

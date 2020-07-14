@@ -14,8 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ImageView
-            android:src="@drawable/anh1"
+        <TextView
+            android:text="Shopee"
+            android:textSize="36dp"
+            android:fontFamily="@font/rregular"
             android:layout_width="130dp"
             android:layout_marginTop="60dp"
             android:layout_gravity="center"
@@ -26,7 +28,7 @@
             android:hint="Email"
             android:textColorHint="#2CA7E0"
             android:inputType="textEmailAddress"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:drawableLeft="@drawable/ic_person"
             android:drawablePadding="10dp"
             android:layout_gravity="center"
@@ -87,4 +89,5 @@
 
 
     </LinearLayout>
+
 </LinearLayout>

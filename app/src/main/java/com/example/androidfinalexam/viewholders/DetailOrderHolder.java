@@ -18,7 +18,7 @@ public class DetailOrderHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         // ánh xạ
-        imgPro = (ImageView) itemView.findViewById(R.id.img_products_id);
+        imgPro = (ImageView) itemView.findViewById(R.id.img_pro_id);
         txtName = (TextView) itemView.findViewById(R.id.name_id);
         txtPrice = (TextView) itemView.findViewById(R.id.price_id);
 

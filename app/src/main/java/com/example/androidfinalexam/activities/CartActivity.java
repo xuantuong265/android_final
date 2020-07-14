@@ -51,7 +51,8 @@ public class CartActivity extends AppCompatActivity {
         }
 
         //set tiền
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String pattern = "###,###.###";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
         txtTamTinh.setText(decimalFormat.format(tamTinh) + "đ");
 
@@ -92,8 +93,8 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //check info from
-                String taikhoan = HomeActivity.sharedPreferences.getString("taikhoan", "");
-                String date = HomeActivity.sharedPreferences.getString("ngaydangky", "");
+                String taikhoan = HomeActivity.sharedLogin.getString("taikhoan", "");
+                String date = HomeActivity.sharedLogin.getString("ngaydangky", "");
 
                 if ( ( taikhoan != "" ) && ( date != "" ) ){
                     // nếu có info

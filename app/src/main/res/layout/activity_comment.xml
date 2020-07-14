@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".activities.CommentActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_id"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/custom_toolbar_layout"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/img_back_id"
+                android:src="@drawable/ic_close_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:id="@+id/title_page_id"
+                android:text="Đánh giá sản phẩm"
+                android:textColor="#ffffff"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginTop="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/imgCart_id"
+                android:src="@drawable/ic_shopping_cart_black"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <LinearLayout
+               android:paddingTop="20dp"
+               android:padding="15dp"
+               android:background="#fff"
+               android:orientation="vertical"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <LinearLayout
+                   android:orientation="horizontal"
+                   android:weightSum="3"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <LinearLayout
+                       android:orientation="vertical"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1">
+
+                       <TextView
+                           android:id="@+id/star_id"
+                           android:text="5.0"
+                           android:textStyle="bold"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content" />
+
+                       <androidx.appcompat.widget.AppCompatRatingBar
+                           android:id="@+id/rating_bar_total_id"
+                           android:layout_marginTop="5dp"
+                           android:progressTint="#FFEB3B"
+                           style="?android:attr/ratingBarStyleSmall"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:isIndicator="false"
+                           android:numStars="5"
+                           android:stepSize="0.1" />
+
+                       <TextView
+                           android:id="@+id/so_binhLuan"
+                           android:text="13 nhận xét"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content" />
+
+                   </LinearLayout>
+
+                   <!--               end left-->
+
+                   <LinearLayout
+                       android:orientation="vertical"
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="2">
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <androidx.appcompat.widget.AppCompatRatingBar
+                               android:layout_marginTop="5dp"
+                               android:rating="5"
+                               android:progressTint="#FFEB3B"
+                               style="?android:attr/ratingBarStyleSmall"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:isIndicator="true"
+                               android:numStars="5"
+                               android:stepSize="0.1" />
+
+                           <ProgressBar
+                               android:id="@+id/progressBar_id_5"
+                               style="?android:attr/progressBarStyleHorizontal"
+                               android:layout_width="110dp"
+                               android:layout_marginTop="5dp"
+                               android:layout_marginLeft="10dp"
+                               android:layout_marginRight="10dp"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentLeft="true"
+                               android:layout_alignParentTop="true"/>
+
+                           <TextView
+                               android:id="@+id/so_comment5"
+                               android:text="0"
+                               android:layout_marginTop="3dp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <androidx.appcompat.widget.AppCompatRatingBar
+                               android:layout_marginTop="5dp"
+                               android:rating="4"
+                               android:progressTint="#FFEB3B"
+                               style="?android:attr/ratingBarStyleSmall"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:isIndicator="true"
+                               android:numStars="5"
+                               android:stepSize="0.1" />
+
+                           <ProgressBar
+                               android:id="@+id/progressBar_id_4"
+                               style="?android:attr/progressBarStyleHorizontal"
+                               android:layout_width="110dp"
+                               android:layout_marginTop="5dp"
+                               android:layout_marginLeft="10dp"
+                               android:layout_marginRight="10dp"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentLeft="true"
+                               android:layout_alignParentTop="true"/>
+
+                           <TextView
+                               android:id="@+id/so_comment4"
+                               android:text="0"
+                               android:layout_marginTop="3dp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <androidx.appcompat.widget.AppCompatRatingBar
+                               android:layout_marginTop="5dp"
+                               android:progressTint="#FFEB3B"
+                               android:rating="3"
+                               style="?android:attr/ratingBarStyleSmall"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:isIndicator="true"
+                               android:numStars="5"
+                               android:stepSize="0.1" />
+
+                           <ProgressBar
+                               android:id="@+id/progressBar_id_3"
+                               style="?android:attr/progressBarStyleHorizontal"
+                               android:layout_width="110dp"
+                               android:layout_marginTop="5dp"
+                               android:layout_marginLeft="10dp"
+                               android:layout_marginRight="10dp"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentLeft="true"
+                               android:layout_alignParentTop="true"/>
+
+                           <TextView
+                               android:id="@+id/so_comment3"
+                               android:text="0"
+                               android:layout_marginTop="3dp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <androidx.appcompat.widget.AppCompatRatingBar
+                               android:layout_marginTop="5dp"
+                               android:progressTint="#FFEB3B"
+                               android:rating="2"
+                               style="?android:attr/ratingBarStyleSmall"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:isIndicator="true"
+                               android:numStars="5"
+                               android:stepSize="0.1" />
+
+                           <ProgressBar
+                               android:id="@+id/progressBar_id_2"
+                               style="?android:attr/progressBarStyleHorizontal"
+                               android:layout_width="110dp"
+                               android:layout_marginTop="5dp"
+                               android:layout_marginLeft="10dp"
+                               android:layout_marginRight="10dp"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentLeft="true"
+                               android:layout_alignParentTop="true"/>
+
+                           <TextView
+                               android:id="@+id/so_comment2"
+                               android:text="0"
+                               android:layout_marginTop="3dp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                       </LinearLayout>
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal">
+
+                           <androidx.appcompat.widget.AppCompatRatingBar
+                               android:layout_marginTop="5dp"
+                               android:progressTint="#FFEB3B"
+                               android:rating="1"
+                               style="?android:attr/ratingBarStyleSmall"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:isIndicator="true"
+                               android:numStars="5"
+                               android:stepSize="1" />
+
+                           <ProgressBar
+                               android:id="@+id/progressBar_id_1"
+                               style="?android:attr/progressBarStyleHorizontal"
+                               android:layout_width="110dp"
+                               android:layout_marginTop="5dp"
+                               android:layout_marginLeft="10dp"
+                               android:layout_marginRight="10dp"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentLeft="true"
+                               android:layout_alignParentTop="true"/>
+
+                           <TextView
+                               android:id="@+id/so_comment1"
+                               android:text="0"
+                               android:layout_marginTop="3dp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                       </LinearLayout>
+
+                   </LinearLayout>
+
+                   <!--                end right-->
+
+               </LinearLayout>
+
+               <!--           end top-->
+
+               <Button
+                   android:background="@drawable/button_viet_cmt"
+                   android:textColor="#3F51B5"
+                   android:textStyle="normal"
+                   android:layout_marginTop="20dp"
+                   android:text="Viết bình luận"
+                   android:id="@+id/btnVietBinhLuan"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+
+           <!--       end-->
+
+           <LinearLayout
+               android:layout_marginTop="2dp"
+               android:paddingTop="10dp"
+               android:paddingBottom="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/recyclerview">
+               </androidx.recyclerview.widget.RecyclerView>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+   </ScrollView>
+
+</LinearLayout>
