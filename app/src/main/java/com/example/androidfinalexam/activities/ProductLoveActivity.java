@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.adapters.MobileProAdapter;
+import com.example.androidfinalexam.adapters.ProductAdapter;
 import com.example.androidfinalexam.adapters.ProductLoveAdapter;
 import com.example.androidfinalexam.models.Products;
 import com.google.gson.Gson;
@@ -29,7 +31,7 @@ public class ProductLoveActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<Products> mData = new ArrayList<Products>();
-    private ProductLoveAdapter productLoveAdapter;
+    private ProductAdapter productLoveAdapter;
     private ImageView imgBack;
     private ImageView imgCart;
     private LinearLayout coSanPham, thongBao;
@@ -124,8 +126,8 @@ public class ProductLoveActivity extends AppCompatActivity {
 
     private void setUpRecyclerview(){
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        productLoveAdapter = new ProductLoveAdapter(ProductLoveActivity.this, mData);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL) );
+        productLoveAdapter = new ProductAdapter(ProductLoveActivity.this, mData);
         recyclerView.setAdapter(productLoveAdapter);
     }
 

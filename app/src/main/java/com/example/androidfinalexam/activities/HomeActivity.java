@@ -13,8 +13,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.androidfinalexam.CheckConnection;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.models.Cart;
 import com.example.androidfinalexam.models.HomeFragment;
@@ -23,6 +25,7 @@ import com.example.androidfinalexam.models.PersonFragment;
 import com.example.androidfinalexam.models.Products;
 import com.example.androidfinalexam.models.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -40,52 +43,60 @@ public class HomeActivity extends AppCompatActivity {
     public static SharedPreferences.Editor editor;
     public static ArrayList<Cart> cartArrayList;
     public static ArrayList<Products> listProLove = new ArrayList<Products>();
+    private FloatingActionButton profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        initView();
-        getUser();
-        putCart();
-        loadData();
-        //getProductLove();
+        if (CheckConnection.haveNetworkConnection(getApplicationContext())){
+
+            initView();
+            getUser();
+            putCart();
+            loadData();
+            //getProductLove();
 
 
-        if ( savedInstanceState == null ){
-            getSupportFragmentManager().beginTransaction().replace(R.id.framContainer, new HomeFragment()).commit();
-        }
+            if ( savedInstanceState == null ){
+                getSupportFragmentManager().beginTransaction().replace(R.id.framContainer, new HomeFragment()).commit();
+            }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment = null;
-                switch (menuItem.getItemId()) {
-                    case R.id.home_id:
-                        fragment = new HomeFragment();
-                        break;
+            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    Fragment fragment = null;
+                    switch (menuItem.getItemId()) {
+                        case R.id.home_id:
+                            fragment = new HomeFragment();
+                            break;
 
-                    case R.id.search_id:
-                        fragment = new SearchFragment();
-                        break;
-                    case R.id.notifications_id:
-                        fragment = new NotificationFragment();
-                        break;
-                    case R.id.person_id:
-                        fragment = new PersonFragment();
-                        break;
+                        case R.id.search_id:
+                            fragment = new SearchFragment();
+                            break;
+                        case R.id.notifications_id:
+                            fragment = new NotificationFragment();
+                            break;
+                        case R.id.person_id:
+                            fragment = new PersonFragment();
+                            break;
+
+                    }
+                    fragmentTransaction.replace(R.id.framContainer, fragment);
+                    fragmentTransaction.commit();
+                    return true;
 
                 }
-                fragmentTransaction.replace(R.id.framContainer, fragment);
-                fragmentTransaction.commit();
-                return true;
+            });
 
-            }
-        });
 
+        }else {
+            Toast.makeText(this, "Kiểm tra lại kết nối của bạn !", Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
 
     }
@@ -148,6 +159,15 @@ public class HomeActivity extends AppCompatActivity {
         }else{
             cartArrayList = new ArrayList<Cart>();
         }
+
+        // thông tin tác giả
+        profile = (FloatingActionButton) findViewById(R.id.profile_id);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+            }
+        });
 
     }
 

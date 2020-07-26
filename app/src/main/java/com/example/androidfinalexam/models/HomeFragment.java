@@ -34,6 +34,7 @@ import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.activities.CartActivity;
 import com.example.androidfinalexam.activities.DetailProActivity;
 import com.example.androidfinalexam.activities.HomeActivity;
+import com.example.androidfinalexam.activities.SanPhamDaXem;
 import com.example.androidfinalexam.activities.XemThemDienThoai;
 import com.example.androidfinalexam.adapters.ComputerAdapter;
 import com.example.androidfinalexam.adapters.DaXemAdapter;
@@ -67,7 +68,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Products> computerList;
     private ComputerAdapter computerAdapter;
     private ImageView imgCart;
-    private TextView txtDienThoai, txtMayTinh;
+    private TextView txtDienThoai, txtMayTinh, txtDaxem;
 
 
     public HomeFragment() {
@@ -181,6 +182,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        txtDaxem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = HomeActivity.sharedLogin.getString("id", "");
+                Intent intent = new Intent(getActivity(), SanPhamDaXem.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void mobileProduct() {
@@ -287,6 +298,7 @@ public class HomeFragment extends Fragment {
         txtMayTinh = (TextView) view.findViewById(R.id.matTinh_id);
         goi_y_hom_nay_id = (RecyclerView) view.findViewById(R.id.goi_y_hom_nay_id);
         sanPhamDaXem = (RecyclerView) view.findViewById(R.id.san_pham_da_xem_id);
+        txtDaxem = (TextView) view.findViewById(R.id.xem_them_sp);
     }
 
     private void slide() {

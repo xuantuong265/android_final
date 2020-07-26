@@ -127,7 +127,7 @@ public class PayActivity extends AppCompatActivity {
                                     if ( deatail.getBoolean("status") ){
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
 
-                                        // remove cart
+//                                        // remove cart
                                         HomeActivity.cartArrayList.clear();
                                         Gson gson = new Gson();
                                         String json = gson.toJson(HomeActivity.cartArrayList);
@@ -136,12 +136,13 @@ public class PayActivity extends AppCompatActivity {
 
 
                                         startActivity(intent);
-                                        JSONObject datas = deatail.getJSONObject("data");
-                                        Toast.makeText(PayActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(PayActivity.this, "Mời bạn tiếp tục mua hàng", Toast.LENGTH_SHORT).show();
+
+                                        progressDialog.dismiss();
+                                        Toast.makeText(PayActivity.this, "Mua hàng thành công ", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PayActivity.this, "Mời bạn tiếp tục mua hàng " , Toast.LENGTH_LONG).show();
                                     }else {
                                         progressDialog.dismiss();
-                                        Toast.makeText(PayActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PayActivity.this, "Thất bại", Toast.LENGTH_LONG).show();
                                     }
 
                                 } catch (JSONException e) {
@@ -163,7 +164,7 @@ public class PayActivity extends AppCompatActivity {
                                 for ( int i = 0; i < HomeActivity.cartArrayList.size(); i++ ){
                                     JSONObject datas = new JSONObject();
                                     try {
-                                        datas.put("id_orders", id_orders);
+                                        datas.put("id_orders", String.valueOf(id_orders));
                                         datas.put("id_products", HomeActivity.cartArrayList.get(i).getId());
                                         datas.put("name_products", HomeActivity.cartArrayList.get(i).getNamePro());
                                         datas.put("image", HomeActivity.cartArrayList.get(i).getImgPro());

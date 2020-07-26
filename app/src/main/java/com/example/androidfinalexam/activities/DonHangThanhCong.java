@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.androidfinalexam.ClickItemSearch;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.adapters.OrderAdapter;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DonHangThanhCong extends AppCompatActivity {
+public class DonHangThanhCong extends AppCompatActivity implements ClickItemSearch {
 
     private ImageView imgBack;
     private String url = UrlApi.getOrderSuccess;
@@ -138,8 +139,17 @@ public class DonHangThanhCong extends AppCompatActivity {
     private void setUpRecyclerview(){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
-        orderAdapter = new OrderAdapter( DonHangThanhCong.this, mData );
+        orderAdapter = new OrderAdapter( DonHangThanhCong.this, mData, this );
         recyclerView.setAdapter(orderAdapter);
     }
 
+    @Override
+    public void onClickItem(int position) {
+
+    }
+
+    @Override
+    public void onLongClickItem(int positon) {
+
+    }
 }

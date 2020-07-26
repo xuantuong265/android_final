@@ -101,7 +101,6 @@
 
                   <RelativeLayout
                       android:paddingBottom="50dp"
-                      android:background="#fff"
                       android:layout_marginTop="10dp"
                       android:layout_width="match_parent"
                       android:layout_height="match_parent" >
@@ -112,49 +111,15 @@
                           android:layout_width="match_parent"
                           android:layout_height="match_parent">
 
-                          <androidx.cardview.widget.CardView
-                              android:clickable="false"
-                              android:id="@+id/donhang_choxuly_id"
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content">
-
-                              <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content" >
-
-                                  <ImageView
-                                      android:id="@+id/icon"
-                                      android:layout_alignParentLeft="true"
-                                      android:layout_width="wrap_content"
-                                      android:src="@drawable/ic_format_align_justify_black_24dp"
-                                      android:layout_height="wrap_content" />
-
-                                  <TextView
-                                      android:layout_marginLeft="10dp"
-                                      android:layout_toRightOf="@+id/icon"
-                                      android:text="Đơn hàng chờ xử lý"
-                                      android:textSize="17dp"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content" />
-
-
-                              </RelativeLayout>
-
-                          </androidx.cardview.widget.CardView>
-
-                          <androidx.cardview.widget.CardView
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:clickable="false"
+                          <LinearLayout
+                              android:background="#fff"
                               android:id="@+id/orders_success_id"
                               android:layout_width="match_parent"
+                              android:padding="10dp"
+                              android:layout_marginBottom="1dp"
                               android:layout_height="wrap_content">
 
                               <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content" >
 
@@ -176,18 +141,17 @@
 
                               </RelativeLayout>
 
-                          </androidx.cardview.widget.CardView>
+                          </LinearLayout>
 
-                          <androidx.cardview.widget.CardView
+                          <LinearLayout
+                              android:background="#fff"
                               android:id="@+id/comment_id"
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:clickable="false"
+                              android:padding="10dp"
+                              android:layout_marginBottom="1dp"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content">
 
                               <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content" >
 
@@ -208,18 +172,49 @@
 
                               </RelativeLayout>
 
-                          </androidx.cardview.widget.CardView>
+                          </LinearLayout>
 
-                          <androidx.cardview.widget.CardView
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:clickable="false"
+                          <LinearLayout
+                              android:background="#fff"
+                              android:padding="10dp"
+                              android:layout_marginBottom="1dp"
+                              android:id="@+id/donhang_choxuly_id"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content">
+
+                              <RelativeLayout
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content" >
+
+                                  <ImageView
+                                      android:id="@+id/icon"
+                                      android:layout_alignParentLeft="true"
+                                      android:layout_width="wrap_content"
+                                      android:src="@drawable/ic_format_align_justify_black_24dp"
+                                      android:layout_height="wrap_content" />
+
+                                  <TextView
+                                      android:layout_marginLeft="10dp"
+                                      android:layout_toRightOf="@+id/icon"
+                                      android:text="Đơn hàng chờ xử lý"
+                                      android:textSize="17dp"
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content" />
+
+
+                              </RelativeLayout>
+
+                          </LinearLayout>
+
+                          <LinearLayout
+                              android:layout_marginBottom="1dp"
+                              android:background="#fff"
+                              android:padding="10dp"
                               android:id="@+id/product_love_id"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content">
 
                               <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content" >
 
@@ -240,18 +235,17 @@
 
                               </RelativeLayout>
 
-                          </androidx.cardview.widget.CardView>
+                          </LinearLayout>
 
-                          <androidx.cardview.widget.CardView
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:clickable="false"
+                          <LinearLayout
+                              android:layout_marginBottom="1dp"
+                              android:background="#fff"
+                              android:padding="10dp"
                               android:id="@+id/san_pham_da_xem_id"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content">
 
                               <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content" >
 
@@ -272,18 +266,17 @@
 
                               </RelativeLayout>
 
-                          </androidx.cardview.widget.CardView>
+                          </LinearLayout>
 
-                          <androidx.cardview.widget.CardView
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:clickable="false"
+                          <LinearLayout
+                              android:layout_marginBottom="1dp"
+                              android:padding="10dp"
+                              android:background="#fff"
                               android:id="@+id/message_id"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content">
 
                               <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content" >
 
@@ -304,18 +297,17 @@
 
                               </RelativeLayout>
 
-                          </androidx.cardview.widget.CardView>
+                          </LinearLayout>
 
-                          <androidx.cardview.widget.CardView
-                              android:foreground="?android:attr/selectableItemBackground"
-                              android:clickable="false"
+                          <LinearLayout
+                              android:layout_marginBottom="1dp"
+                              android:padding="10dp"
+                              android:background="#fff"
                               android:id="@+id/contact_id"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content">
 
                               <RelativeLayout
-                                  android:layout_marginTop="10dp"
-                                  android:padding="5dp"
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content" >
 
@@ -337,19 +329,20 @@
 
                               </RelativeLayout>
 
-                          </androidx.cardview.widget.CardView>
+                          </LinearLayout>
 
 
                       </LinearLayout>
 
                       <Button
                           android:layout_alignParentBottom="true"
-                          android:layout_marginTop="20dp"
                           android:id="@+id/btnLogout"
                           android:text="Đăng xuất"
+                          android:layout_centerHorizontal="true"
+                          android:layout_marginBottom="50dp"
                           android:textColor="#fff"
                           android:background="@drawable/custom_btn_login_layout"
-                          android:layout_width="match_parent"
+                          android:layout_width="200dp"
                           android:layout_height="wrap_content" />
 
 

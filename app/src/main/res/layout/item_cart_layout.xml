@@ -48,6 +48,7 @@
                 android:orientation="horizontal" >
 
                 <ImageButton
+                    android:backgroundTint="#64D4F0"
                     android:id="@+id/add_id"
                     android:src="@drawable/ic_add_black_24dp"
                     android:layout_width="wrap_content"
@@ -63,6 +64,7 @@
                     android:layout_height="40dp" />
 
                 <ImageButton
+                    android:backgroundTint="#64D4F0"
                     android:id="@+id/remove_id"
                     android:src="@drawable/ic_remove_black_24dp"
                     android:layout_width="wrap_content"

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidfinalexam.ClickItemSearch;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.activities.ChiTietDonHang;
 import com.example.androidfinalexam.models.Orders;
@@ -21,10 +22,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderHolder> {
 
     private Context context;
     private ArrayList<Orders> mData;
+    public static ClickItemSearch clickItemSearch;
 
-    public OrderAdapter(Context context, ArrayList<Orders> mData) {
+    public OrderAdapter(Context context, ArrayList<Orders> mData, ClickItemSearch clickItemSearch) {
         this.context = context;
         this.mData = mData;
+        this.clickItemSearch = clickItemSearch;
     }
 
     @NonNull
@@ -52,6 +55,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderHolder> {
                 context.startActivity(intent);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clickItemSearch.onLongClickItem(mData.get(position).getId());
+                return true;
+            }
+        });
+
     }
 
     @Override

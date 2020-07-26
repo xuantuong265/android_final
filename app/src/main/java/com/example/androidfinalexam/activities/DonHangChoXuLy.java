@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.androidfinalexam.ClickItemSearch;
 import com.example.androidfinalexam.R;
 import com.example.androidfinalexam.UrlApi;
 import com.example.androidfinalexam.adapters.OrderAdapter;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DonHangChoXuLy extends AppCompatActivity {
+public class DonHangChoXuLy extends AppCompatActivity implements ClickItemSearch {
 
     private ImageView imgBack;
     private String url = UrlApi.getOrder;
@@ -138,8 +139,60 @@ public class DonHangChoXuLy extends AppCompatActivity {
     private void setUpRecyclerview(){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
-        orderAdapter = new OrderAdapter( DonHangChoXuLy.this, mData );
+        orderAdapter = new OrderAdapter( DonHangChoXuLy.this, mData, this );
         recyclerView.setAdapter(orderAdapter);
+    }
+
+    @Override
+    public void onClickItem(int position) {
+
+    }
+
+    @Override
+    public void onLongClickItem(int id) {
+        delete(id);
+    }
+
+    private void delete( int id ){
+
+        String deleteOrders = UrlApi.deleteOrders;
+
+        // gửi data lên server
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, deleteOrders, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if ( jsonObject.getBoolean("status") ){
+                        Toast.makeText(DonHangChoXuLy.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), DonHangChoXuLy.class));
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Lỗi " + error, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parrams = new HashMap<>();
+                parrams.put("id", String.valueOf(id));
+                return parrams;
+            }
+        };
+        queue.add(stringRequest);
+
+
+
     }
 
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -295,7 +296,7 @@ public class DetailProActivity extends AppCompatActivity {
 
         // kiểm tra số lượng sp mua có nhiều hơn sản phẩm trong kho
         int soluong = products.getAmounts(); // sản phẩm trong kho
-        if ( soluong > amount ){
+        if ( soluong >= amount ){
             // kiểm tra giở hàng đã có sản phẩm hay chưa
             if ( HomeActivity.cartArrayList.size() > 0 ){
 
@@ -354,7 +355,7 @@ public class DetailProActivity extends AppCompatActivity {
             }else {
                 Toast.makeText(this, "Vui lòng chọn số lượng sản phẩm !!!", Toast.LENGTH_SHORT).show();
             }
-        }else {
+        }else{
             Toast.makeText(this, "Sản phẩm trong kho đã gần hết :v", Toast.LENGTH_SHORT).show();
         }
 
@@ -364,6 +365,7 @@ public class DetailProActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     public void getData() {
         Intent intent = getIntent();
         products = (Products) intent.getSerializableExtra("data");
@@ -377,9 +379,15 @@ public class DetailProActivity extends AppCompatActivity {
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
         txtPricePro.setText("Giá: " + decimalFormat.format(products.getPrice()) + "đ.");
         Picasso.get().load(UrlApi.getImage + products.getImage()).into(imgAvt);
-        txtSoluong.setText("Còn lại: " + products.getAmounts() + " sản phẩm.");
 
-
+        if ( products.getAmounts() == 0 ){
+            txtSoluong.setText("Sản phẩm hiện tại hết hàng");
+            txtSoluong.setTextColor(R.color.red);
+            btnAddCart.setVisibility(View.GONE);
+        }else{
+            txtSoluong.setText("Còn lại: " + products.getAmounts() + " sản phẩm.");
+            btnAddCart.setVisibility(View.VISIBLE);
+        }
 
         // set data mô tả
 
@@ -504,7 +512,6 @@ public class DetailProActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, themSanPhamDaXem, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-
                 }
             }, new Response.ErrorListener() {
                 @Override

@@ -24,6 +24,7 @@ import com.example.androidfinalexam.activities.DonHangChoXuLy;
 import com.example.androidfinalexam.activities.DonHangThanhCong;
 import com.example.androidfinalexam.activities.HomeActivity;
 import com.example.androidfinalexam.activities.ProductLoveActivity;
+import com.example.androidfinalexam.activities.SanPhamDaXem;
 import com.example.androidfinalexam.activities.YourCommentActivity;
 
 public class PersonFragment extends Fragment {
@@ -32,7 +33,7 @@ public class PersonFragment extends Fragment {
     private LinearLayout layout_info;
     private ImageView imgAvt, imgBack;
     private TextView txtInfo;
-    private CardView txtDonHangChoXuLy, txtDonHangThanhCong, txtComment, txtProductLove, txtContact, txtDaXem;
+    private LinearLayout txtDonHangChoXuLy, txtDonHangThanhCong, txtComment, txtProductLove, txtContact, txtDaXem;
     private TextView txtDate, txtDangNhap;
     private Button btnLogout;
     private ProgressDialog progressDialog;
@@ -170,6 +171,17 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                String id = HomeActivity.sharedLogin.getString("id", "");
+                if ( ( id != "" ) ){
+
+                    Intent intent = new Intent(getActivity(), SanPhamDaXem.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+
+                }else {
+                    startActivity( new Intent( getActivity(), AuthActivitis.class ) );
+                }
+
             }
         });
 
@@ -182,12 +194,12 @@ public class PersonFragment extends Fragment {
         txtInfo = (TextView) view.findViewById(R.id.email_id);
         txtDangNhap = (TextView) view.findViewById(R.id.dangnhap_id);
         btnLogout = (Button) view.findViewById(R.id.btnLogout);
-        txtContact = (CardView) view.findViewById(R.id.contact_id);
-        txtDonHangChoXuLy = (CardView) view.findViewById(R.id.donhang_choxuly_id);
-        txtProductLove = (CardView) view.findViewById(R.id.product_love_id);
-        txtDaXem = (CardView) view.findViewById(R.id.san_pham_da_xem_id);
-        txtDonHangThanhCong = (CardView) view.findViewById(R.id.orders_success_id);
-        txtComment = (CardView) view.findViewById(R.id.comment_id);
+        txtContact = (LinearLayout) view.findViewById(R.id.contact_id);
+        txtDonHangChoXuLy = (LinearLayout) view.findViewById(R.id.donhang_choxuly_id);
+        txtProductLove = (LinearLayout) view.findViewById(R.id.product_love_id);
+        txtDaXem = (LinearLayout) view.findViewById(R.id.san_pham_da_xem_id);
+        txtDonHangThanhCong = (LinearLayout) view.findViewById(R.id.orders_success_id);
+        txtComment = (LinearLayout) view.findViewById(R.id.comment_id);
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Đang xác thực");
     }

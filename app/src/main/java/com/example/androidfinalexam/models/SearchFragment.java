@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -50,12 +53,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SearchFragment extends Fragment implements ClickItemSearch {
 
+    private static final int CODE = 1000;
     private View view;
-    private ImageView imgSearch, imgBack;
+    private ImageView imgSearch, imgBack, mic_search;
     private EditText edtSearch;
     private String url = UrlApi.search;
     private RecyclerView recyclerView, historyRecy;
@@ -71,6 +79,8 @@ public class SearchFragment extends Fragment implements ClickItemSearch {
     private SharedPreferences.Editor edt;
     private HistoryAdapter historyAdapter;
     private boolean isFlag = false;
+    private String name_products;
+
 
 
     @Nullable
@@ -94,7 +104,8 @@ public class SearchFragment extends Fragment implements ClickItemSearch {
                 progressDialog.setMessage("Đang tìm kiếm");
                 progressDialog.show();
                 productsArrayList.clear();
-                search();
+                name_products = edtSearch.getText().toString().toLowerCase();
+                search(name_products);
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -116,41 +127,61 @@ public class SearchFragment extends Fragment implements ClickItemSearch {
             }
         });
 
+        mic_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productsArrayList.clear();
+                micSearch();
+            }
+        });
+
     }
 
-    private void search() {
+    private void search(String name_products) {
+
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-               if ( response.length() > 0 ){
-                   try {
-                       JSONArray jsonArray = new JSONArray(response);
-                       for ( int i = 0; i < jsonArray.length(); i++ ){
-                           JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                           productsArrayList.add( new Products(
-                                   jsonObject.getInt("id"),
-                                   jsonObject.getInt("id_brand"),
-                                   jsonObject.getInt("id_categories"),
-                                   jsonObject.getString("name"),
-                                   jsonObject.getString("image"),
-                                   jsonObject.getInt("amounts"),
-                                   jsonObject.getDouble("price"),
-                                   jsonObject.getString("products_desc"),
-                                   jsonObject.getDouble("star")
-                           ) );
-                       }
-                       productAdapter.notifyDataSetChanged();
-                   } catch (JSONException e) {
-                       e.printStackTrace();
-                   }
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getBoolean("status")){
+                        JSONArray mang = jsonObject.getJSONArray("data");
 
-                   setUpRecyclerview();
-               }
-                CheckData(); // kiểm tra mảng
-                progressDialog.dismiss();
+                        if ( mang.length() > 0 ){
+                            for ( int i = 0; i < mang.length(); i++ ){
+                                JSONObject object = (JSONObject) mang.get(i);
+                                productsArrayList.add( new Products(
+                                        object.getInt("id"),
+                                        object.getInt("id_brand"),
+                                        object.getInt("id_categories"),
+                                        object.getString("name"),
+                                        object.getString("image"),
+                                        object.getInt("amounts"),
+                                        object.getDouble("price"),
+                                        object.getString("products_desc"),
+                                        object.getDouble("star")
+                                ) );
+                            }
+                            productAdapter.notifyDataSetChanged();
+                            setUpRecyclerview();
+                            CheckData(); // kiểm tra mảng
+                            String name_products = edtSearch.getText().toString().toLowerCase();
+                            checkSeach(name_products); // thêm vào lịch sử
+                            progressDialog.dismiss();
+
+                        }else {
+                            Toast.makeText(getActivity(), "Không có gì cả", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -163,12 +194,8 @@ public class SearchFragment extends Fragment implements ClickItemSearch {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parrams = new HashMap<>();
                 // get data from editext
-                String name_products = edtSearch.getText().toString().toLowerCase();
-                checkSeach(name_products);
                 parrams.put("name_products", name_products);
                 return parrams;
-
-
 
             }
         };
@@ -183,6 +210,7 @@ public class SearchFragment extends Fragment implements ClickItemSearch {
         edtSearch = (EditText) view.findViewById(R.id.edtSearch);
         imgSearch = (ImageView) view.findViewById(R.id.imgSearch);
         imgBack = (ImageView) view.findViewById(R.id.img_back_id);
+        mic_search = (ImageView) view.findViewById(R.id.mic_search);
         progressDialog = new ProgressDialog(getActivity());
         txtNoPro = (TextView) view.findViewById(R.id.noPro);
         linearLayout = (LinearLayout) view.findViewById(R.id.layout);
@@ -289,13 +317,52 @@ public class SearchFragment extends Fragment implements ClickItemSearch {
         }
     }
 
+    private void micSearch(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Đang nghe...");
 
+        try {
+            startActivityForResult(intent, CODE);
+        }catch (Exception e){
+            Toast.makeText(getActivity(), "Lỗi nè " + e, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    // nhận dữ liệu
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        switch (requestCode){
+            case CODE:{
+                if (resultCode == RESULT_OK && data != null){
+                    ArrayList<String> list = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    name_products = list.get(0).toLowerCase().toString();
+                    edtSearch.setText(name_products);
+                    search(name_products);
+                }
+                break;
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 
 
     @Override
     public void onClickItem(int position) {
         String name = listHistory.get(position).getName();
         edtSearch.setText(name);
-        search();
+        search(name);
+    }
+
+    @Override
+    public void onLongClickItem(int positon) {
+
     }
 }

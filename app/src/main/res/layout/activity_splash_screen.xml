@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#fff"
+    android:background="@drawable/custom_toolbar_layout"
     android:layout_height="match_parent"
     tools:context=".activities.SplashScreenActivity">
 
     <TextView
-        android:text="Shopee"
+        android:text="TIKI"
         android:textSize="36dp"
+        android:textColor="#FFFFFF"
         android:fontFamily="@font/rregular"
         android:gravity="center_horizontal"
         android:layout_centerInParent="true"

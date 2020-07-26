@@ -106,16 +106,19 @@ public class RegisterFragmet extends Fragment {
                 String password2 = edtPassword2.getText().toString().trim();
 
                 // check null
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    edtEmail.setError("Invalid Email");
-                    edtEmail.setFocusable(true);
-                }else if (edtPassword.length() < 6){
-                    edtPassword.setError("Password length at least 6 characters");
-                    edtPassword.setFocusable(true);
-                }else {
-                    parrams.put("email", email);
-                    parrams.put("password", password);
-                }
+//                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+////                    edtEmail.setError("Invalid Email");
+////                    edtEmail.setFocusable(true);
+////                }else if (edtPassword.length() < 6){
+////                    edtPassword.setError("Password length at least 6 characters");
+////                    edtPassword.setFocusable(true);
+////                }else {
+//                    parrams.put("email", email);
+//                    parrams.put("password", password);
+////                }
+
+                parrams.put("email", email);
+                parrams.put("password", password);
 
                 return parrams;
             }

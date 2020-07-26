@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRatingBar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -53,6 +54,7 @@ public class VietBinhLuanActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private String id_user, id_products;
     private String url = UrlApi.insertComment;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -123,6 +125,8 @@ public class VietBinhLuanActivity extends AppCompatActivity {
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                progressDialog.setTitle("Đang xác thực...");
+//                progressDialog.show();
                 upload();
             }
         });
@@ -149,13 +153,16 @@ public class VietBinhLuanActivity extends AppCompatActivity {
 
                         Toast.makeText(VietBinhLuanActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
                         startActivity( new Intent( VietBinhLuanActivity.this, HomeActivity.class ) );
+                        progressDialog.dismiss();
 
                     }else {
+                        progressDialog.dismiss();
                         Toast.makeText(VietBinhLuanActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressDialog.dismiss();
                 }
 
 
@@ -164,6 +171,7 @@ public class VietBinhLuanActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(VietBinhLuanActivity.this, "Lỗi " + error, Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         }){
             @Override
@@ -236,5 +244,6 @@ public class VietBinhLuanActivity extends AppCompatActivity {
         txtStatus = (TextView) findViewById(R.id.trangThai_id);
         appCompatRatingBar = (AppCompatRatingBar) findViewById(R.id.rating_bar_id);
         imgUpload = (ImageView) findViewById(R.id.imgUpload_id);
+        progressDialog = new ProgressDialog(this);
     }
 }
